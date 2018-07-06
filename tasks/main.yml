@@ -1,0 +1,31 @@
+- name: Reset ignored applications list
+  command: "softwareupdate --reset-ignored"
+  when: softwareupdate_reset_ignored
+
+- name: Add packages to the ignore list
+  command: "softwareupdate --ignore {{ ignored_packages | map('quote') | join(' ') }}"
+  with_items: softwareupdate_ignore_packages
+  when: softwareupdate_ignore_packages
+
+- name: Default to install updates
+  set_fact:
+    softwareupdate_action: "--install"
+
+- name: Change to download only if set
+  set_fact:
+    softwareupdate_action: "--download"
+  when: softwareupdate_download_only
+
+- name: Default to install all software updates
+  set_fact:
+    softwareupdate_updates: "--all"
+
+- name: Only install recommended if set
+  set_fact:
+    softwareupdate_updates: "--recommended"
+  when: softwareupdate_recommended_only
+
+- name: Install Software Updates
+  command: "{{ 'softwareupdate ' + softwareupdate_action + ' ' + softwareupdate_updates }}"
+  register: softwareupdate_output
+  changed_when: "'Downloading' in softwareupdate_output.stdout"
