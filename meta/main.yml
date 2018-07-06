@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  author: Ann Arbor District Library
+  description: Ansible role to update OSX using softwareupdate.
+  license: GPLv3
+  min_ansible_version: 2.1
+  platforms:
+  - name: MacOSX
+    versions:
+    - all
+  galaxy_tags: ["osx"]
+dependencies: []
