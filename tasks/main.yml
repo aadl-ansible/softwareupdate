@@ -29,3 +29,8 @@
   command: "{{ 'softwareupdate ' + softwareupdate_action + ' ' + softwareupdate_updates }}"
   register: softwareupdate_output
   changed_when: "'Downloading' in softwareupdate_output.stdout"
+
+- name: Warn when reboot is required
+  debug: 
+    msg: "Reboot needed to complete updates on {{ inventory_hostname }}"
+  when: "'Please restart' in softwareupdate_output.stdout"
