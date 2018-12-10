@@ -3,3 +3,4 @@ softwareupdate_recommended_only: true
 softwareupdate_download_only: false
 softwareupdate_install_packages: []
 softwareupdate_ignore_packages: []
+softwareupdate_reboot: false

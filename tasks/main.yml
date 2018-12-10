@@ -31,6 +31,11 @@
   changed_when: "'Downloading' in softwareupdate_output.stdout"
 
 - name: Warn when reboot is required
-  debug: 
+  debug:
     msg: "Reboot needed to complete updates on {{ inventory_hostname }}"
   when: "'Please restart' in softwareupdate_output.stdout"
+  register: reboot_required
+
+- name: Reboot the machine
+  reboot:
+  when: reboot_required && softwareupdate_reboot
