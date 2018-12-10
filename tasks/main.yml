@@ -38,4 +38,4 @@
 
 - name: Reboot the machine
   reboot:
-  when: reboot_required && softwareupdate_reboot
+  when: reboot_required and softwareupdate_reboot
