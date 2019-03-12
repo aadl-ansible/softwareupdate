@@ -4,7 +4,7 @@
 
 - name: Add packages to the ignore list
   command: "softwareupdate --ignore {{ ignored_packages | map('quote') | join(' ') }}"
-  with_items: softwareupdate_ignore_packages
+  with_items: '{{ softwareupdate_ignore_packages }}'
   when: softwareupdate_ignore_packages
 
 - name: Default to install updates
@@ -28,12 +28,12 @@
 - name: Install Software Updates
   command: "{{ 'softwareupdate ' + softwareupdate_action + ' ' + softwareupdate_updates }}"
   register: softwareupdate_output
-  changed_when: softwareupdate_output.stdout.find("Downloading")
+  changed_when: softwareupdate_output.stdout.find('Downloading') != -1
 
 - name: Warn when reboot is required
   debug:
     msg: "Reboot needed to complete updates on {{ inventory_hostname }}"
-  when: softwareupdate_output.stdout.find("restart")
+  when: softwareupdate_output.stdout.find("restart") != -1
   register: reboot_required
 
 - name: Reboot the machine
